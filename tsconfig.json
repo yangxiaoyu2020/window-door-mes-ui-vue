@@ -4,7 +4,9 @@
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
+    "noImplicitAny": false, // 是否在表达式和声明上有隐含的any类型时报错
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -18,9 +20,8 @@
       "jest"
     ],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@": ["src"],
+      "@/*": ["src/*"]
     },
     "lib": [
       "esnext",
@@ -33,10 +34,12 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
+    "src/**/*.d.ts",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "vue.config.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules", "dist"
   ]
 }

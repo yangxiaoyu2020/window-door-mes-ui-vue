@@ -1,0 +1,219 @@
+[{
+    "path": "/home/index",
+    "name": "home",
+    "component": "/home/index",
+    "meta": {
+    "icon": "HomeFilled",
+    "title": "home",
+    "isLink": "",
+    "isHide": false,
+    "isFull": false,
+    "isAffix": true,
+    "isKeepAlive": true
+    }
+},
+{
+  "path": "/order",
+  "name": "orderManagement",
+  "redirect": "/order/index",
+  "meta": {
+      "icon": "Menu",
+      "title": "order",
+      "isLink": "",
+      "isHide": false,
+      "isFull": false,
+      "isAffix": false,
+      "isKeepAlive": true
+  },
+  "children": [
+      {
+          "path": "/order/index",
+          "name": "订单管理详情",
+          "component": "/ordertable/index",
+          "meta": {
+              "icon": "Menu",
+              "title": "orderManagement",
+              "isLink": "",
+              "isHide": false,
+              "isFull": false,
+              "isAffix": false,
+              "isKeepAlive": true
+          }
+      }
+  ]
+},
+{
+    "path": "/factory",
+    "name": "factoryManagement",
+    "redirect": "/factory/index",
+    "meta": {
+        "icon": "Shop",
+        "title": "factory",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+    },
+    "children": [
+        {
+            "path": "/factory/index",
+            "name": "工厂情况",
+            "component": "/factorytable/index",
+            "meta": {
+                "icon": "Shop",
+                "title": "factoryManagement",
+                "isLink": "",
+                "isHide": false,
+                "isFull": false,
+                "isAffix": false,
+                "isKeepAlive": true
+            }
+        }
+    ]
+  },
+  {
+    "path": "/setting",
+    "name": "settings",
+    "redirect": "/setting/index",
+    "meta": {
+        "icon": "Setting",
+        "title": "settings",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+    },
+    "children": [
+        {
+            "path": "/setting/index",
+            "name": "settingsManagement",
+            "component": "/system/index",
+            "meta": {
+                "icon": "Setting",
+                "title": "settings",
+                "isLink": "",
+                "isHide": false,
+                "isFull": false,
+                "isAffix": false,
+                "isKeepAlive": true
+            }
+        },
+        {
+            "path": "/setting/user/index",
+            "name": "userSettings",
+            "component": "/system/user/index",
+            "meta": {
+                "icon": "User",
+                "title": "user",
+                "isLink": "",
+                "isHide": false,
+                "isFull": false,
+                "isAffix": false,
+                "isKeepAlive": true
+            }
+        },
+        {
+            "path": "/setting/role/index",
+            "name": "userSettings",
+            "component": "/system/role/index",
+            "meta": {
+                "icon": "Key",
+                "title": "user",
+                "isLink": "",
+                "isHide": false,
+                "isFull": false,
+                "isAffix": false,
+                "isKeepAlive": true
+            }
+        },
+        {
+            "path": "/setting/pay/index",
+            "name": "salarySettings",
+            "component": "/system/money/index",
+            "meta": {
+                "icon": "Money",
+                "title": "salary",
+                "isLink": "",
+                "isHide": false,
+                "isFull": false,
+                "isAffix": false,
+                "isKeepAlive": true
+            }
+        }
+    ]
+  },
+  {
+    "path": "/dataAnalysis",
+    "name": "dataAnalysis",
+    "redirect": "/dataAnalysis/index",
+    "meta": {
+        "icon": "DataAnalysis",
+        "title": "data",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+    },
+    "children": [
+        {
+            "path": "/dataAnalysis/index",
+            "name": "dataAnalysis",
+            "component": "/dataAnalysis/index",
+            "meta": {
+                "icon": "DataAnalysis",
+                "title": "dataAnalysis",
+                "isLink": "",
+                "isHide": false,
+                "isFull": false,
+                "isAffix": false,
+                "isKeepAlive": true
+            }
+        },
+        {
+            "path": "/dataAnalysis/histogram/index",
+            "name": "barChart",
+            "component": "/dataAnalysis/histogram/index",
+            "meta": {
+                "icon": "Histogram",
+                "title": "barChart",
+                "isLink": "",
+                "isHide": false,
+                "isFull": false,
+                "isAffix": false,
+                "isKeepAlive": true
+            }
+        },
+        {
+            "path": "/dataAnalysis/trendcharts/index",
+            "name": "trendChart",
+            "component": "/dataAnalysis/trendcharts/index",
+            "meta": {
+                "icon": "TrendCharts",
+                "title": "trendChart",
+                "isLink": "",
+                "isHide": false,
+                "isFull": false,
+                "isAffix": false,
+                "isKeepAlive": true
+            }
+        },
+        {
+            "path": "/dataAnalysis/odometer/index",
+            "name": "gaugeChart",
+            "component": "/dataAnalysis/odometer/index",
+            "meta": {
+                "icon": "Odometer",
+                "title": "gaugeChart",
+                "isLink": "",
+                "isHide": false,
+                "isFull": false,
+                "isAffix": false,
+                "isKeepAlive": true
+            }
+        }
+    ]
+  }
+]

@@ -1,0 +1,30 @@
+.tool-bar-ri {
+    display: flex; /* 使用 flexbox 布局 */
+    align-items: center; /* 垂直居中对齐 */
+    justify-content: flex-end; /* 水平右对齐 */
+    padding-right: 25px; /* 右侧内边距 */
+}
+
+.tool-bar-ri .header-icon {
+    display: flex; /* 使用 flexbox 布局 */
+    align-items: center; /* 垂直居中对齐 */
+}
+
+.tool-bar-ri .header-icon > * {
+    margin-left: 21px; /* 左边距 */
+    color: var(--el-header-text-color); /* 设置文本颜色 */
+}
+
+.tool-bar-ri .username {
+    margin: 0 20px; /* 左右外边距 */
+    font-size: 15px; /* 字体大小 */
+    color: var(--el-header-text-color); /* 设置文本颜色 */
+}
+
+.tool-bar-lf {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    white-space: nowrap;
+}

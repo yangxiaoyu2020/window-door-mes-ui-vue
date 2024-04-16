@@ -1,0 +1,91 @@
+[
+    {
+      "id": "1",
+      "idCard": "123456789012345678",
+      "username": "Alice",
+      "gender": 0,
+      "user": { "detail": { "age": 30 } },
+      "phonenumber": "1234567890",
+      "address": "123 Main Street",
+      "createTime": "2024-05-06T12:00:00Z",
+      "updateTime": "2024-05-06T12:00:00Z",
+      "status": 1,
+      "avatar": "alice.jpg",
+      "photo": [],
+      "children": [
+        {
+          "id": "11",
+          "idCard": "111111111111111111",
+          "username": "Alice's Child 1",
+          "gender": 0,
+          "user": { "detail": { "age": 5 } },
+          "phonenumber": "1234567891",
+          "address": "123 Main Street",
+          "createTime": "2024-05-06T12:00:00Z",
+          "updateTime": "2024-05-06T12:00:00Z",
+          "status": 1,
+          "avatar": "alice_child1.jpg",
+          "photo": []
+        },
+        {
+          "id": "12",
+          "idCard": "222222222222222222",
+          "username": "Alice's Child 2",
+          "gender": 1,
+          "user": { "detail": { "age": 8 } },
+          "phonenumber": "1234567892",
+          "address": "123 Main Street",
+          "createTime": "2024-05-06T12:00:00Z",
+          "updateTime": "2024-05-06T12:00:00Z",
+          "status": 1,
+          "avatar": "alice_child2.jpg",
+          "photo": []
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "idCard": "234567890123456789",
+      "username": "Bob",
+      "gender": 1,
+      "user": { "detail": { "age": 35 } },
+      "phonenumber": "9876543210",
+      "address": "456 Oak Avenue",
+      "createTime": "2024-05-06T12:00:00Z",
+      "updateTime": "2024-05-06T12:00:00Z",
+      "status": 1,
+      "avatar": "bob.jpg",
+      "photo": [],
+      "children": [
+        {
+          "id": "21",
+          "idCard": "333333333333333333",
+          "username": "Bob's Child 1",
+          "gender": 0,
+          "user": { "detail": { "age": 4 } },
+          "phonenumber": "9876543211",
+          "address": "456 Oak Avenue",
+          "createTime": "2024-05-06T12:00:00Z",
+          "updateTime": "2024-05-06T12:00:00Z",
+          "status": 1,
+          "avatar": "bob_child1.jpg",
+          "photo": []
+        },
+        {
+          "id": "22",
+          "idCard": "444444444444444444",
+          "username": "Bob's Child 2",
+          "gender": 1,
+          "user": { "detail": { "age": 7 } },
+          "phonenumber": "9876543212",
+          "address": "456 Oak Avenue",
+          "createTime": "2024-05-06T12:00:00Z",
+          "updateTime": "2024-05-06T12:00:00Z",
+          "status": 1,
+          "avatar": "bob_child2.jpg",
+          "photo": []
+        }
+      ]
+    }
+  ]
+  

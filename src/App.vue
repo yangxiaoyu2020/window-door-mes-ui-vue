@@ -1,30 +1,25 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div id="app">
+    <router-view></router-view>
+  </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+import { defineComponent } from 'vue';
 
-nav {
-  padding: 30px;
+export default defineComponent({
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  
+  name: 'App',
+  setup() {
+    // 在 setup 函数中可以执行一些初始化逻辑
+    return {};
   }
-}
+});
+
+
+</script>
+
+<style scoped>
+/* 样式 */
 </style>

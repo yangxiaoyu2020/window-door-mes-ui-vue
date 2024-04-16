@@ -1,0 +1,117 @@
+{
+  "jp": "日语",
+  "en": "英语",
+  "zh": "中文",
+  "header": {
+    "logout": "登出",
+    "personalData": "个人数据"
+  },
+  "layout": {
+    "title": "欢迎来到MES系统"
+  },
+  "chat": {
+    "message": "消息"
+  },
+  "uploadFile": {
+    "choose": "请选择一个文件上传",
+    "limitOneFile": "限制1个文件，新文件将覆盖旧文件"
+  },
+  "product": {
+    "productName": "产品名称",
+    "productId": "产品ID",
+    "create": "创建产品",
+    "uploadFile": "上传FBX的产品文件"
+  },
+  "alert": {
+    "notify": "通知",
+    "message":"消息",
+    "task": "任务"
+},
+  "menu": {
+    "home": "首页",
+    "order": "订单",
+    "orderManagement": "订单管理",
+    "factory": "工厂",
+    "factoryManagement": "工厂管理",
+    "settings": "设置",
+    "management": "管理",
+    "user": "人员管理",
+    "userManagement": "用户管理",
+    "salary": "工资",
+    "data": "数据",
+    "dataAnalysis": "数据分析",
+    "barChart": "柱状图",
+    "trendChart": "趋势图",
+    "gaugeChart": "仪表图",
+    "product": "产品",
+    "productManagement": "产品管理",
+    "orderTask": "订单任务管理",
+    "orderData":"订单报表数据分析",
+    "auditProcess": "审批",
+    "auditProcessManagement": "审批管理"
+  }, 
+  "message": {
+    "cancel": "取消",
+    "confirm": "确认",
+    "logoutMessage": "确定要登出吗？",
+    "reminder": "温馨提示",
+    "logoutSuccess": "登出成功！",
+    "goodMorning": "早上好",
+    "goodNoon": "中午好",
+    "goodAfternoon": "下午好",
+    "goodEvening": "晚上好",
+    "goodMidnight": "午夜好",
+    "loginweclome": "欢迎登录"
+  },
+  "tabs": {
+    "closeCurrent": "关闭当前",
+    "closeAll": "全部关闭"
+  },
+  "userOperation": "用户操作",
+  "order": {
+    "create": "创建订单",
+    "check": "查看订单详情",
+    "edit": "编辑并更新此订单"
+  },
+  "orderList": {
+    "orderId": "订单ID",
+    "orderName": "订单号",
+    "customerId": "客户ID",
+    "productId": "产品型号",
+    "status": "状态",
+    "prepaymentAmount": "预付款金额",
+    "totalAmount": "总金额",
+    "deliveryDate": "交货日期",
+    "creationDate": "创建日期",
+    "lastUpdate": "最后更新",
+    "percentage": "进度"
+
+  },
+  "auth": {
+    "title": "欢迎来到MES系统",
+    "signin": "登录",
+    "signup": "注册",
+    "username": "用户名",
+    "password": "密码",
+    "usernamepolicy": "请输入用户名",
+    "passwordpolicy": "请输入密码",
+    "reset": "重置"
+  },
+  "user": {
+    "userId": "用户ID",
+    "username": "用户名",
+    "fullName": "全名",
+    "create": "新建用户",
+    "batchAdd": "批量添加用户"
+  },
+  "http:": {
+    "errorMessage": {
+      "Message400": "请求失败！请检查您的请求并稍后重试。",
+      "Message401": "您的登录会话已过期！请重新登录。",
+      "Message403": "访问被拒绝！您没有权限访问此资源。",
+      "Message404": "您要访问的资源不存在。",
+      "Message500": "服务当前不可用。",
+      "defaultMessage": "请求失败！"
+    }
+  }
+}

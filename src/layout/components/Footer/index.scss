@@ -1,0 +1,18 @@
+.footer {
+    height: 30px;
+    background-color: var(--el-bg-color);
+    border-top: 1px solid var(--el-border-color-light);
+    a {
+      font-size: 14px;
+      color: var(--el-text-color-secondary);
+      text-decoration:color(from color srgb r g b);
+      letter-spacing: 0.5px;
+    }
+}
+
+.footer > div{
+  pointer-events: none;
+  }
+  .footer > div > div{
+  pointer-events: none;
+  }

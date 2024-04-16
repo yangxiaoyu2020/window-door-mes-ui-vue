@@ -1,0 +1,103 @@
+{
+  "jp": "Japanese",
+  "en": "English",
+  "zh": "Chinese",
+  "header": {
+    "logout":"Logout"
+  },
+  "layout": {
+    "title": "Welcome to the MES System"
+  },
+  "uploadFile": {
+    "choose": "Please choose a file to upload",
+    "limitOneFile": "Limit to 1 file, new file will replace the old file"
+  },
+  "product": {
+    "productName": "Product Name",
+    "productId": "Product ID",
+    "create": "Create Product",
+    "uploadFile": "Upload the product file in FBX format"
+  },
+  "chat": {
+    "message": "Messages"
+  },
+
+  "menu": {  
+    "home": "Home",  
+    "order": "Order",  
+    "orderManagement": "Order Management",  
+    "factory": "Factory",  
+    "factoryManagement": "Factory Management",  
+    "settings": "Settings",  
+    "management": "Management",  
+    "user": "User",  
+    "salary": "Salary",  
+    "data": "Data",  
+    "dataAnalysis": "Data Analysis",  
+    "barChart": "Bar Chart",  
+    "trendChart": "Trend Chart",  
+    "gaugeChart": "Gauge Chart" ,
+    "product": "Product",
+    "productManagement": "Product Management"
+  },  
+  "message": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "logoutMessage": "Are you sure you want to log out?",
+    "reminder": "Friendly Reminder",
+    "logoutSuccess": "Logged out successfully!",
+    "goodMorning": "Good morning",
+    "goodNoon": "Good noon",
+    "goodAfternoon": "Good afternoon",
+    "goodEvening": "Good evening",
+    "goodMidnight": "Good midnight",
+    "loginweclome":"Welcome to log in"
+  },
+  "tabs": {
+    "closeCurrent":"Close Current ",
+    "closeAll":"Close All "
+  },
+  "userOperation": "User Operation",
+  "order": {  
+    "create": "Create Order",  
+    "check": "Check Order Details",  
+    "edit": "Edit and Update This Order"
+  },
+  "orderList": {  
+      "orderId": "Order ID",  
+      "orderNumber": "Order Number",  
+      "customerId": "Customer ID",  
+      "productName": "Product Name",  
+      "status": "Status",  
+      "prepaymentAmount": "Prepayment Amount",  
+      "totalAmount": "Total Amount",  
+      "deliveryDate": "Delivery Date",  
+      "creationDate": "Creation Date",  
+      "lastUpdate": "Last Update"  
+  },
+  "auth": {
+    "title": "Welcome to the MES System",
+    "signin": "Sign In",
+    "signup": "Sign Up",
+    "username": "User Name",
+    "password":"Password",
+    "usernamepolicy":"Please input your username",
+    "passwordpolicy":"Please enter your password",
+    "reset": "Reset"
+  },
+  "user": {
+    "userId": "User Id",
+    "username":"User Name",
+    "fullName":"Full Name"
+  },
+  "http:": {
+    "errorMessage": {
+    "Message400": "Request failed! Please check your request and try again later.",
+    "Message401": "Your login session has expired! Please log in again.",
+    "Message403": "Access denied! You do not have permission to access this resource.",
+    "Message404": "The resource you are trying to access does not exist.",
+    "Message500": "The service is currently unavailable.",
+    "defaultMessage": "Request failed!"
+    }
+    }
+}

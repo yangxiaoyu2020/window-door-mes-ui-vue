@@ -1,0 +1,102 @@
+{
+  "jp": "日本語",
+  "en": "英語",
+  "zh": "中国語",
+  "header": {
+    "logout": "ログアウト"
+  },
+  "layout": {
+    "title": "MESシステムへようこそ"
+  },
+  "uploadFile": {
+    "choose": "アップロードするファイルを選択してください",
+    "limitOneFile": "1つのファイルに制限、新しいファイルは古いファイルを置き換えます"
+  },
+  "product": {
+    "productName": "製品名",
+    "productId": "製品ID",
+    "create": "製品を作成",
+    "uploadFile": "FBX形式の製品ファイルをアップロード"
+  },
+  "chat": {
+    "message": "メッセージ"
+  },
+  "menu": {
+    "home": "ホーム",
+    "order": "注文",
+    "orderManagement": "注文管理",
+    "factory": "工場",
+    "factoryManagement": "工場管理",
+    "settings": "設定",
+    "management": "管理",
+    "user": "ユーザー",
+    "salary": "給与",
+    "data": "データ",
+    "dataAnalysis": "データ分析",
+    "barChart": "棒グラフ",
+    "trendChart": "トレンドチャート",
+    "gaugeChart": "ゲージチャート",
+    "product": "製品",
+    "productManagement": "製品管理"
+  },
+  "message": {
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "logoutMessage": "ログアウトしてもよろしいですか？",
+    "reminder": "ご注意ください",
+    "logoutSuccess": "正常にログアウトしました！",
+    "goodMorning": "おはようございます",
+    "goodNoon": "こんにちは",
+    "goodAfternoon": "こんにちは",
+    "goodEvening": "こんばんは",
+    "goodMidnight": "おやすみなさい",
+    "loginweclome": "ログインへようこそ"
+  },
+  "tabs": {
+    "closeCurrent": "現在のタブを閉じる",
+    "closeAll": "すべてのタブを閉じる"
+  },
+  "userOperation": "ユーザー操作",
+  "order": {
+    "create": "注文を作成する",
+    "check": "注文詳細を確認する",
+    "edit": "この注文を編集して更新する"
+  },
+  "orderList": {
+    "orderId": "注文ID",
+    "orderNumber": "注文番号",
+    "customerId": "顧客ID",
+    "productName": "製品名",
+    "status": "状態",
+    "prepaymentAmount": "前払い金額",
+    "totalAmount": "合計金額",
+    "deliveryDate": "配達日",
+    "creationDate": "作成日",
+    "lastUpdate": "最終更新"
+  },
+  "auth": {
+    "title": "MESシステムへようこそ",
+    "signin": "サインイン",
+    "signup": "サインアップ",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "usernamepolicy": "ユーザー名を入力してください",
+    "passwordpolicy": "パスワードを入力してください",
+    "reset": "リセット"
+  },
+  "user": {
+    "userId": "ユーザーID",
+    "username": "ユーザー名",
+    "fullName": "氏名"
+  },
+  "http:": {
+    "errorMessage": {
+      "Message400": "リクエストに失敗しました！リクエストを確認して後でもう一度やり直してください。",
+      "Message401": "ログインセッションの有効期限が切れました！もう一度ログインしてください。",
+      "Message403": "アクセスが拒否されました！このリソースにアクセスする権限がありません。",
+      "Message404": "アクセスしようとしているリソースは存在しません。",
+      "Message500": "サービスが現在利用できません。",
+      "defaultMessage": "リクエストに失敗しました！"
+    }
+  }
+}

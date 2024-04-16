@@ -1,0 +1,69 @@
+.container {
+    background-image: url("~@/assets/home_image.png"); /* '~@/' 表示从 src 目录下引入文件 */
+    background-size: cover; /* 背景图大小设置为 cover，保证填满整个容器 */
+    background-repeat: no-repeat; /* 背景图不重复 */
+    background-position: center; /* 背景图位置居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 将容器高度设置为视窗的高度，使内容垂直居中 */
+  }
+  
+  .login-box {
+    border: 1px solid #ccc; /* 添加边框 */
+    padding: 20px; /* 添加内边距 */
+    width: 400px; /* 设置框的宽度 */
+    background: rgba(
+      255,
+      255,
+      255,
+      0.7
+    ); /**改成半透明的 */
+  }
+
+  .langugae {
+    color: blue; /* 设置标题的颜色为蓝色 */
+  }
+  .language-selector {
+    background: rgba(
+      255,
+      255,
+      255,
+      0.7
+    ); /**改成半透明的 */
+    border: 1px solid #ccc; /* 添加边框 */
+    position: fixed;
+    color: blue;
+    top: 10px;
+    right: 10px;
+    z-index: 9999; /* 确保下拉框在最顶层 */
+  }
+.langugae-image:hover {
+  /* 鼠标悬停时的选中效果 */
+  border: 2px solid rgb(0, 255, 64); /* 添加边框 */
+  cursor: pointer; /* 更改鼠标指针样式 */
+}
+  .el-header {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 55px;
+    padding: 0 15px;
+    background-color: var(--el-header-bg-color);
+    border-bottom: 1px solid var(--el-border-color-light);
+  }
+
+
+.iconfont {
+  font-family: iconfont !important;
+  font-size: 20px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: pointer;
+}
+
+.icon-zhongyingwen::before {
+content: "\e8cb";
+}
