@@ -1,8 +1,9 @@
 // 工厂模块
 
 import { UploadFile } from "element-plus";
-import { ReqPage, ReqPart, ResPart } from ".";
-import { OrderStatus, OrderSteps } from "@/enums/order/OrderStatus";
+import { ReqPage, ReqPart, ResPage, ResPart } from ".";
+import { User } from "./user";
+import { Product } from "./product";
 
 
 export namespace Order {
@@ -14,8 +15,13 @@ export namespace Order {
         orderId: number|undefined;
     }
 
-    export interface ReqTaskSteps {
-        userId: number;
+    export interface ReqTask {
+        userId?: number;
+        stepIds?: number[];
+    }
+
+    export interface ResTask {
+
     }
 
     export interface UpdateOrder {
@@ -26,27 +32,20 @@ export namespace Order {
     export interface ResOrderList {
         id: number; // Long 对应为 number
         orderName: string;
-        customerId: number; // Integer 对应为 number
-        productId: string;
+        customer: User.UserInfo; // Integer 对应为 number
+        product: Product.ProductDto;
         status: string;
         prepaymentAmount: number; // BigDecimal 对应为 number
         totalAmount: number; // BigDecimal 对应为 number
-        deliveryDate: string; // Date 对应为 Date 对象
-        creationDate: string; // Timestamp 对应为 ISO 8601 日期字符串
-        lastUpdate: string; // Timestamp 对应为 ISO 8601 日期字符串
+        deliveryDate: number; // Date 对应为 Date 对象
+        creationDate: number; // Timestamp 对应为 ISO 8601 日期字符串
+        lastUpdate: number; // Timestamp 对应为 ISO 8601 日期字符串
         orderHistories: OrderHistory[];
         attachments: ResFile[];
     }
 
     // 定义响应接口
-    type OrderStepsMap = {
-        [K in OrderSteps]: ResOrderList[];
-    };
     
-    // 使用映射类型定义响应接口
-    export interface ResAllTaskList{
-        orderTaskMap: OrderStepsMap
-    }
 
     export interface ResFile {
         fileName: string;
@@ -83,7 +82,8 @@ export namespace Order {
     }
 
     export interface ReqTaskParams  extends ReqPart{
-        taskStatus: OrderSteps;
+        userId: number;
+        status: number;
     }
 
 
@@ -95,7 +95,54 @@ export namespace Order {
         deliveryDate: string; // Ensure deliveryDate is a Date object
         fileList: UploadFile[];
     }
-    export interface ResOrder {
-        status: number;
-      }
+    export interface ReqOrderSteps extends ReqPage {
+        userId: number;
+        keyword?: string;
+    }
+    export interface ReqCreateStep {
+        name: string;
+        description?: string;
+        createdBy: number;
+        isMandatory?: boolean;
+        needApproval?: boolean;
+        approvalId?: number;
+    }
+
+    export interface OrderStep {
+        id: number;
+        name: string;
+        description?: string;
+        createdBy: User.UserInfo;
+        isMandatory?: boolean;
+        canBeSkipped?: boolean;
+        createTime: string;
+        updateTime: string;
+    }
+
+    export interface OrderTemplate {
+        id: number;
+        name: string;
+        description?: string;
+        createdBy: User.UserInfo;
+        steps: TemplateStep[]
+    }
+
+    export interface TemplateStep {
+        stepId: number;
+        stepIndex: number;
+        requiresApproval: boolean;
+        approvalProcessId?: number;
+    }
+
+    export interface ReqOrderTemplate {
+        createdBy: number;
+        keyword?: string;
+    }
+
+    export interface ReqCreateOrderTemplate {
+        name: string;
+        description?: string;
+        createdBy: number;
+        steps: TemplateStep[]
+    }
 }

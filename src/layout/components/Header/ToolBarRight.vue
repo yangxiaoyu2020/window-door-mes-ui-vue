@@ -19,7 +19,7 @@ import Avatar from "./components/Avatar.vue";
 import Alert from "./components/alert/Alert.vue";
 
 const userStore = useUserStore();
-const username = computed(() => userStore.userInfo.name);
+const username = computed(() => userStore.userInfo.username);
 </script>
 
 <style scoped lang="scss">

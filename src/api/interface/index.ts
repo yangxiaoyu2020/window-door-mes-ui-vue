@@ -68,10 +68,35 @@ export interface Result {
       username: string;
       userId: number;
       avatar: string;
+      fullName: string;
+      phoneNumber: string;
     }
 
     export interface ResAuthButtons {
       [key: string]: string[];
+    }
+  }
+
+
+  export namespace MyFile {
+    export interface FileInfo {
+      fileName: string;
+      fileUrl: string;
+    }
+  }
+
+
+  export namespace MESResponse {
+    export interface CreateResponse {
+      id: number;
+      status: string;
+      message: string;
+    }
+
+    export interface UpdateResponse {
+      id: number;
+      status: string;
+      message: string;
     }
   }
   

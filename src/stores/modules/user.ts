@@ -7,9 +7,11 @@ export const useUserStore = defineStore({
   state: (): UserState => ({
     token: "",
     userInfo: { 
-      name: "",
-      userId: -1,
-      avatar: ""
+      username: "",
+      id: -1,
+      avatar: "",
+      fullName:"",
+      phoneNumber:""
     }
   }),
   getters: {},
@@ -23,10 +25,16 @@ export const useUserStore = defineStore({
       this.userInfo = userInfo;
     },
     setUserName(username: string) {
-      this.userInfo.name = username;
+      this.userInfo.username = username;
     },
     setUserId(userId: number) {
-      this.userInfo.userId = userId;
+      this.userInfo.id = userId;
+    },
+    setFullName(fullName: string) {
+      this.userInfo.fullName = fullName;
+    },
+    setPhoneNumber(phoneNumber: string) {
+      this.userInfo.phoneNumber = phoneNumber;
     },
     setAvatar(avatar: string) {
       this.userInfo.avatar = avatar;

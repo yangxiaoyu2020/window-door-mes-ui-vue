@@ -24,7 +24,7 @@
               <el-icon v-if="option.icon">
                 <component :is="option.icon" />
               </el-icon>
-              <span>{{ option.label }}</span>
+              <span>{{ $t(option.label) }}</span>
             </slot>
           </li>
         </ul>

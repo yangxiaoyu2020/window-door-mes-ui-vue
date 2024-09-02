@@ -1,4 +1,4 @@
-import { ReqPage } from ".";
+import { ReqPage, ReqPart } from ".";
 
  // 员工管理模块
  // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -8,6 +8,12 @@ import { ReqPage } from ".";
       id?: string;
       status?: number;
     }
+
+    export interface ReqUserScollParams extends ReqPart {
+        keyWord?: string;
+        id?: string;
+        status?: number;
+      }
 
     export interface ReqUserInfo {
         userId: string;
@@ -27,21 +33,22 @@ import { ReqPage } from ".";
     }
 
     export interface ResUser {
+        id: number;
         username: string;
         fullName: string;
         phoneNumber: string;
         avatar: string;
-        userId: number;
         roleName: string;
     }
 
     export interface UserInfo{
+        id: number;
         username: string;
         fullName: string;
         phoneNumber: string;
         avatar: string;
-        userId: string;
     }
+
 
 
     export interface ResCreate {

@@ -5,7 +5,7 @@
         <el-icon v-if="subItem.meta.icon">
           <component :is="subItem.meta.icon"></component>
         </el-icon>
-        <span class="sle">{{ $t("menu."+subItem.meta.title) }}</span>
+        <span class="sle">{{ $t("menu." + subItem.meta.title) }}</span>
       </template>
       <SubMenu :menu-list="subItem.children" />
     </el-sub-menu>
@@ -14,16 +14,12 @@
         <component :is="subItem.meta.icon"></component>
       </el-icon>
       <template #title>
-        <span class="sle">{{ $t("menu."+subItem.meta.title) }}</span>
+        <span class="sle">{{ $t("menu." + subItem.meta.title) }}</span>
       </template>
     </el-menu-item>
   </template>
-  
+
   <!-- 放置在左下角的标题 -->
-  <h4 class="fixed-title">
-    <el-icon><Setting /></el-icon>
-    to be continue
-  </h4>
 </template>
 
 <script setup lang="ts">

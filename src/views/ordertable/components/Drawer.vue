@@ -14,13 +14,6 @@
       :model="drawerProps.row"
       :hide-required-asterisk="drawerProps.isView"
     >
-      <el-form-item :label="$t('orderList.id')" prop="orderId">
-        <el-input
-          v-model="drawerProps.row!.id"
-          placeholder="请填写订单号"
-          clearable
-        ></el-input>
-      </el-form-item>
       <el-form-item :label="$t('orderList.orderName')" prop="">
         <el-input
           v-model="drawerProps.row!.orderName"
@@ -29,25 +22,25 @@
         ></el-input>
       </el-form-item>
       <el-form-item :label="$t('orderList.deliveryDate')" prop="">
-        <el-input
-          v-model="drawerProps.row!.deliveryDate"
-          placeholder="请填写"
-          clearable
-        ></el-input>
+        <div v-if="!drawerProps.isView">
+          <el-date-picker
+            v-model="drawerProps.row!.deliveryDate"
+            dateType="time"
+            value-format="x"
+            placeholder="Pick a date"
+          />
+        </div>
+        <div v-else-if="drawerProps.isView">
+          <TimeZoneConverter
+            :inputTime="drawerProps.row!.deliveryDate"
+          ></TimeZoneConverter>
+        </div>
       </el-form-item>
       <el-form-item :label="$t('orderList.creationDate')" prop="">
-        <el-input
-          v-model="drawerProps.row!.creationDate"
-          placeholder="请填"
-          clearable
-        ></el-input>
+        <TimeZoneConverter :inputTime="drawerProps.row!.deliveryDate"></TimeZoneConverter>
       </el-form-item>
       <el-form-item :label="$t('orderList.lastUpdate')" prop="">
-        <el-input
-          v-model="drawerProps.row!.lastUpdate"
-          placeholder="请填写"
-          clearable
-        ></el-input>
+        <TimeZoneConverter :inputTime="drawerProps.row!.deliveryDate"></TimeZoneConverter>
       </el-form-item>
       <el-form-item :label="$t('orderList.prepaymentAmount')" prop="">
         <el-input
@@ -116,6 +109,8 @@ import { ref, reactive, watchEffect } from "vue";
 import { Order } from "@/api/interface/order";
 import { ElMessage, FormInstance } from "element-plus";
 import { ReqFileUrl, getPresignedUrl } from "@/api/modules/tempUrl";
+import TimeZoneConverter from "@/components/FormattedTime/index.vue";
+
 import { useUrlCacheStore } from "@/stores/modules/urlCache";
 import { useDownload } from "@/hook/useDownload";
 import { downloadOrder } from "@/api/modules/orders";
@@ -198,9 +193,9 @@ const exportPDF = async () => {
   };
 
   useDownload(downloadOrder, "Order" + drawerProps.value.row.id, params, true, ".pdf", {
-    title: "Custom Title",
+    title: "Downloading",
     message: "Custom message",
-    type: "success",
+    type: "error",
     duration: 5000,
   });
 };

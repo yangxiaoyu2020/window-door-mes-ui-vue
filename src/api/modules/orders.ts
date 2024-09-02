@@ -1,8 +1,7 @@
 import http from '@/api';
-import { ResPage, ResPart } from '@/api/interface';
+import { MESResponse, ResPage, ResPart } from '@/api/interface';
 import { Order } from '@/api/interface/order';
 import { ORDER_SERVER, PDF_SERVER } from '@/api/config';
-import { OrderSteps } from '@/enums/order/OrderStatus';
 
 
 export const getOrderList = (params: Order.ReqOrderParams) => {
@@ -10,20 +9,22 @@ export const getOrderList = (params: Order.ReqOrderParams) => {
     return http.get<ResPage<Order.ResOrderList>>(ORDER_SERVER + `/list`, params);
 };
 
-export const getAllTask= (params: Order.ReqTaskSteps) => {
 
-    return http.get<Order.ResAllTaskList>(ORDER_SERVER + `/allTasks`, params);
+
+export const getSteps= (params: Order.ReqOrderSteps) => {
+
+    return http.get<ResPage<Order.OrderStep>>(ORDER_SERVER + `/steps`, params);
 };
 
 
-export const getAllSteps= (params: Order.ReqTaskSteps) => {
+export const createTemplate= (params: Order.ReqCreateOrderTemplate) => {
 
-    return http.get<Order.LabelSteps[]>(ORDER_SERVER + `/allSteps`, params);
+    return http.post<MESResponse.CreateResponse>(ORDER_SERVER + `/template`, params);
 };
 
-export const getTask = (params: Order.ReqTaskParams) => {
+export const getTemplates= (params: Order.ReqOrderTemplate) => {
 
-    return http.get<ResPart<Order.ResOrderList>>(ORDER_SERVER + `/task`, params);
+    return http.get<ResPage<Order.OrderTemplate>>(ORDER_SERVER + `/templates`, params);
 };
 
 export const getOrderitem = (params: Order.ReqOrderItem) => {
@@ -32,12 +33,20 @@ export const getOrderitem = (params: Order.ReqOrderItem) => {
 };
 
 export const updateOrder = (params: Order.UpdateOrder) => {
-    return http.post<Order.ResOrder>(ORDER_SERVER + `/update`, params);
+    return http.put<MESResponse.UpdateResponse>(ORDER_SERVER + `/update`, params);
+}
+
+export const createOrderStep = (params: Order.ReqCreateStep) => {
+    return http.post<MESResponse.CreateResponse>(ORDER_SERVER + `/step`, params);
+}
+
+export const getOrderSteps = (params: Order.ReqOrderSteps) => {
+    return http.get<ResPage<Order.OrderStep>>(ORDER_SERVER + `/update`, params);
 }
  
 export const createOrder = (data: FormData) => {
     const url = `${ORDER_SERVER}/create`;
-    return http.post<Order.ResOrder>(url, data, { contentType: 'multipart/form-data' });
+    return http.post<MESResponse.CreateResponse>(url, data, { contentType: 'multipart/form-data' });
   };
 
 export const downloadSample = (data: Order.ReqOrderItem) => {

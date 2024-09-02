@@ -38,7 +38,7 @@ class RequestHttp {
         if (config.contentType) {
           config.headers.set('Content-Type', config.contentType);
         }
-        config.headers.set('Authorization', "Bearer " + userStore.userInfo.name);
+        config.headers.set('Authorization', "Bearer " + userStore.userInfo.username);
         if (config.headers && typeof config.headers.set === "function") {
             config.headers.set("x-access-token", userStore.token);
         }
@@ -106,9 +106,6 @@ class RequestHttp {
     return this.service.delete(url, { params, ..._object });
   }
   download(url:string, params?: object, _object = {}): Promise<BlobPart> {
-    return this.service.post(url, params, { ..._object, responseType: "blob" });
-  }
-  downloadGet(url:string, params?: object, _object = {}): Promise<BlobPart> {
     return this.service.post(url, params, { ..._object, responseType: "blob" });
   }
 }

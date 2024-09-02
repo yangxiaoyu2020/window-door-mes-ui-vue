@@ -120,7 +120,7 @@ const parameter = ref<ParameterProps>({
 const fetchProductList = async () => {
   try {
     const reqParams: Product.ReqProductParams = {
-      userId: userStore.userInfo.userId.toString(),
+      userId: userStore.userInfo.id.toString(),
       pageNum: 1,
       pageSize: 10,
     };
@@ -146,7 +146,7 @@ const notify = (options: {
 
 const orderData = ref<Order.ReqCreateOrder>({
   orderName: "",
-  customerId: userStore.userInfo.userId.toString(),
+  customerId: userStore.userInfo.id.toString(),
   productId: "",
   deliveryDate: "", // 初始化为当前日期
   fileList: [],
@@ -213,7 +213,7 @@ const createOrder = async () => {
     dialogVisible.value = false; // 无论成功或失败，均关闭对话框
     orderData.value = {
       orderName: "",
-      customerId: userStore.userInfo.userId.toString(),
+      customerId: userStore.userInfo.id.toString(),
       productId: "",
       deliveryDate: "", // 初始化为当前日期
       fileList: [],

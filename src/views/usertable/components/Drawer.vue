@@ -135,7 +135,7 @@ const fetchMenuData = async () => {
     const menuList = await getMeunList();
     menuData.value = menuList.data;
     const reqMenu: Menu.ReqUserMenuParams = {
-      userId: drawerProps.value.row!.userId?.toString(),
+      userId: drawerProps.value.row!.id?.toString(),
     };
     if (!drawerProps.value.isCreate) {
       const userMenuList = await getMeunUserList(reqMenu);
@@ -174,7 +174,7 @@ const handleSubmit = () => {
         await drawerProps.value.api!(reqUser);
       } else {
         const reqUser = {
-          userId: drawerProps.value.row!.userId?.toString(),
+          userId: drawerProps.value.row!.id?.toString(),
           username: drawerProps.value.row!.username?.toString(),
           fullName: drawerProps.value.row!.fullName?.toString(),
           roleName: drawerProps.value.row!.roleName?.toString(),

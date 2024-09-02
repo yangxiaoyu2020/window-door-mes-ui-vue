@@ -6,7 +6,7 @@
     width="500px"
     draggable
   >
-    <span>{{ dialogProps.title }}</span>
+    <span>{{ $t(dialogProps.title) }}</span>
     <template #header>
       <span class="dialog-header">
         <el-button type="primary" :icon="Edit" @click="enableEdit = true">编辑</el-button>
@@ -21,7 +21,7 @@
       :hide-required-asterisk="!enableEdit"
     >
       <el-form-item label="头像" prop="avatar">
-        <el-avatar :size="80" :src="dialogProps.row.avatar" />
+        <el-avatar :size="80" :src="avatarUrl || require('@/assets/images/avatar.png')" />
         <el-upload
           v-if="enableEdit"
           v-model:file-list="avatarList"
@@ -58,12 +58,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineExpose, reactive } from "vue";
+import { ref, defineExpose, reactive, watchEffect } from "vue";
 import { Edit, Plus } from "@element-plus/icons-vue";
 import { ElMessage, FormInstance, drawerProps } from "element-plus";
 import { User as UserNameSpace } from "@/api/interface/user";
 
 import type { UploadFile, UploadProps } from "element-plus";
+import { ReqFileUrl, getPresignedUrl } from "@/api/modules/tempUrl";
+import { useUrlCacheStore } from "@/stores/modules/urlCache";
 
 const imageUrl = ref("");
 const avatarList = ref<UploadFile[]>([]);
@@ -80,6 +82,9 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   return true;
 };
 
+const avatarUrl = ref("");
+
+// 获取头像URL
 const userInfoFormRef = ref<FormInstance>();
 
 export interface InfoDialogProps {
@@ -100,6 +105,26 @@ const acceptParams = (params: InfoDialogProps) => {
   dialogProps.value = params;
   dialogVisible.value = true;
   enableEdit.value = false;
+  if (dialogProps.value.row.avatar) {
+    getAvatarUrl(dialogProps.value.row.avatar);
+  }
+};
+
+const getAvatarUrl = async (fileUrl: string) => {
+  const urlCacheStore = useUrlCacheStore();
+  const cachedUrl = urlCacheStore.getUrl(fileUrl);
+
+  if (cachedUrl) {
+    avatarUrl.value = cachedUrl;
+  } else {
+    const response = await getPresignedUrl({ fileUrl });
+    if (response.data && response.data.fileTempUrl) {
+      const tempUrl = response.data.fileTempUrl;
+      const expire = response.data.expire || Date.now() + 3600 * 1000;
+      urlCacheStore.setUrl(fileUrl, tempUrl, expire);
+      avatarUrl.value = tempUrl;
+    }
+  }
 };
 
 const closeDialog = () => {
@@ -115,7 +140,9 @@ const submitForm = () => {
         if (avatarList.value.length > 0) {
           if (avatarList.value[0].raw && avatarList.value[0].name) {
             const formData = new FormData();
-            formData.append("userId", dialogProps.value.row.userId || "");
+            if (dialogProps.value.row.id) {
+              formData.append("userId", dialogProps.value.row.id.toString());
+            }
             formData.append(
               "avatarFile",
               avatarList.value[0].raw,

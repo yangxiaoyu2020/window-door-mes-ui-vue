@@ -1,5 +1,5 @@
 import http from '@/api';
-import { ResPage } from '@/api/interface';
+import { ResPage, ResPart } from '@/api/interface';
 import { User } from '@/api/interface/user';
 import { USER_SERVER } from '@/api/config';
 
@@ -9,6 +9,10 @@ export const getUserList = (params: User.ReqUserParams) => {
     return http.get<ResPage<User.ResUser>>(USER_SERVER + `/list`, params);
 };
 
+export const getUserScollList = (params: User.ReqUserScollParams) => {
+
+  return http.get<ResPart<User.ResUser>>(USER_SERVER + `/users`, params);
+};
 
 export const getUserInfo = (params: User.ReqUserInfo) => {
 

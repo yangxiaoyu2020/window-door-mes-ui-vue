@@ -30,6 +30,11 @@ export namespace Product {
         fileInfo: ResFile[];
     }
 
+    export interface ProductDto {
+        productName: string;
+        productId: string;
+    }
+
     export interface ResFile {
         fileName: string;
         fileUrl: string;

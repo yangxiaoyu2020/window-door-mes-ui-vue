@@ -1,15 +1,10 @@
 <template>
-    <div>
-    <h1>
-    System placeholder to be done
-    </h1>
-        
-    </div>
+  <div class="home" id="home111">
+    <img src="@/assets/home_image.png" alt="background" class="background-image" />
+  </div>
 </template>
 
-
-<script setup lang="ts">
-</script>
-
-<style>
+<script setup lang="ts"></script>
+<style scoped lang="scss">
+@import "./index.scss";
 </style>

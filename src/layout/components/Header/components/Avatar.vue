@@ -5,7 +5,7 @@
         alt="avatar"
         class="avatar-img"
         shape="circle"
-        :src="userStore.userInfo.avatar || require('@/assets/images/avatar.png')"
+        :src="avatarUrl || require('@/assets/images/avatar.png')"
       />
     </div>
     <template #dropdown>
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 import { LOGIN_URL } from "@/config";
 import { useRouter } from "vue-router";
 import { logoutApi } from "@/api/modules/login";
@@ -37,10 +37,42 @@ import { useI18n } from "vue-i18n";
 import { Login } from "@/api/interface";
 import { getUserInfo, updateUser, uploadUserAvatar } from "@/api/modules/user";
 import { User } from "@/api/interface/user";
+import { ReqFileUrl, getPresignedUrl } from "@/api/modules/tempUrl";
+import { useUrlCacheStore } from "@/stores/modules/urlCache";
 const i18n = useI18n();
 
 const router = useRouter();
 const userStore = useUserStore();
+
+const avatarUrl = ref("");
+
+// 获取头像URL
+const getAvatarUrl = async (fileUrl: string) => {
+  const urlCacheStore = useUrlCacheStore();
+  const cachedUrl = urlCacheStore.getUrl(fileUrl);
+
+  if (cachedUrl) {
+    return cachedUrl;
+  }
+
+  const req: ReqFileUrl = {
+    fileUrl: fileUrl,
+  };
+  const response = await getPresignedUrl(req);
+  const fileTempUrl = response.data.fileTempUrl || "default-url";
+  const expire = response.data.expire ? response.data.expire : Date.now() + 3600 * 1000; // 默认过期时间为1小时
+
+  urlCacheStore.setUrl(fileUrl, fileTempUrl, expire);
+
+  return fileTempUrl;
+};
+
+// 监控userStore.userInfo.avatar并更新头像URL
+watchEffect(async () => {
+  if (userStore.userInfo.avatar) {
+    avatarUrl.value = await getAvatarUrl(userStore.userInfo.avatar);
+  }
+});
 
 // 退出登录
 const logout = () => {
@@ -52,7 +84,7 @@ const logout = () => {
     // 1.执行退出登录接口
     try {
       const logoutBody: Login.ReqLogout = {
-        userId: userStore.userInfo.userId,
+        userId: userStore.userInfo.id,
       };
       await logoutApi(logoutBody);
     } catch (error) {
@@ -72,15 +104,14 @@ const logout = () => {
 const infoRef = ref<InstanceType<typeof InfoDialog> | null>(null);
 // const passwordRef = ref<InstanceType<typeof PasswordDialog> | null>(null);
 const openDialog = async (dialogName: string) => {
-  const userInfo = await getUserInfo({ userId: userStore.userInfo.userId.toString() });
+  const userInfo = await getUserInfo({ userId: userStore.userInfo.id.toString() });
   const currentUser: User.UserInfo = {
-    userId: userStore.userInfo.userId.toString(),
+    id: userStore.userInfo.id,
     username: userInfo.data.username,
     fullName: userInfo.data.fullName,
     phoneNumber: userInfo.data.phoneNumber,
     avatar: userInfo.data.avatar,
   };
-  userStore.setAvatar(userInfo.data.avatar);
   const params = {
     title: dialogName,
     row: currentUser,

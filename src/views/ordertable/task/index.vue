@@ -1,38 +1,39 @@
 <template>
   <div class="main-box">
-    <SelectFilter
-      :data="selectFilterData"
-      :default-values="selectFilterValues"
-      @change="changeSelectFilter"
-    />
     <div class="flex-row">
       <div
         class="list-container"
-        v-for="(list, status) in filteredLists"
-        :key="status"
+        v-for="(list, index) in allTasks"
+        :key="index"
         tabindex="0"
       >
         <h4 style="cursor: pointer; user-select: none">
-          <span class="status-text">{{ status }}</span>
+          <span class="status-text">{{ $t(`orderTask.${index}`) }}</span>
         </h4>
         <div>
-          <ul v-infinite-scroll="() => load(status as OrderSteps)" class="list">
+          <ul
+            v-infinite-scroll="() => load(index)"
+            :infinite-scroll-disabled="loading[index]"
+            :infinite-scroll-distance="10"
+            class="infinite-list"
+            style="overflow-y: auto; height: 600px"
+          >
             <VueDraggable
               class="draggable"
-              v-model="lists[status]"
+              v-model="list.tasks"
               :animation="150"
               ghostClass="ghost"
               group="people"
               @update="handleUpdate"
-              @add="handleAdd(status as OrderSteps)"
+              @add="handleAdd()"
             >
-              <template v-if="list.length === 0">
+              <template v-if="list.tasks.length === 0">
                 <div disabled="true" class="placeholder">Drag items here</div>
               </template>
               <el-card
-                v-for="item in list"
+                v-for="item in list.tasks"
                 shadow="hover"
-                :key="item.orderId"
+                :key="item.id"
                 @click="openDialog(item)"
                 class="card"
               >
@@ -53,19 +54,20 @@
                 </div>
 
                 <div>
-                  <el-avatar>
-                    {{ item.orderHistories[0].userName.charAt(0).toUpperCase() }}
-                  </el-avatar>
-                  {{ item.orderHistories[0].userName }}
+                  <AsyncAvatar
+                    :avatar-identifier="item.assigened.avatar || ''"
+                    :avatar-name="item.assigened.username || ''"
+                  />
                 </div>
               </el-card>
-              <div v-if="loading[status]" class="loading-container">
+              <div v-if="loading[index]" class="loading-container">
                 <el-icon class="loading-icon">
                   <Loading />
                 </el-icon>
               </div>
             </VueDraggable>
           </ul>
+          <p v-if="loading[index]">Loading...</p>
         </div>
       </div>
     </div>
@@ -78,116 +80,84 @@ import { Order } from "@/api/interface/order";
 import { ref, reactive, onMounted, computed } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
 import { Loading } from "@element-plus/icons-vue";
-import { OrderSteps } from "@/enums/order/OrderStatus";
-import { getAllTask, getTask, getAllSteps, updateOrder } from "@/api/modules/orders";
+import { getTasks } from "@/api/modules/orderTasks";
 import { ElMessage } from "element-plus";
-import SelectFilter from "@/components/SelectFilter/index.vue";
 import { useUserStore } from "@/stores/modules/user";
 import Dialog from "../components/Dialog.vue";
+import AsyncAvatar from "@/components/table/AsyncAvatar.vue";
 
 const userStore = useUserStore();
-
-type ListsType = {
-  [K in OrderSteps]: Order.ResOrderList[];
-};
+const allTasks = ref<{ status: number; tasks: Order.ResOrderList[] }[]>([]);
+const loading = ref<Record<number, boolean>>({});
+const indexs = ref<Record<number, number>>({});
+const taskStatus = ref<number[]>([0, 1, 2, 3, 4]);
 
 // 初始化 lists 时为每个状态提供一个空数组
-const lists = ref<ListsType>({} as ListsType);
-const loading = ref<{ [K in OrderSteps]?: boolean }>(
-  {} as { [K in OrderSteps]?: boolean }
-);
-const count = ref<{ [K in OrderSteps]?: number }>({} as { [K in OrderSteps]?: number });
-
-Object.values(OrderSteps).forEach((status) => {
-  lists.value[status] = [];
-  loading.value[status] = false;
-  count.value[status] = 0;
-});
-
-// selectFilter 数据
-const selectFilterData = reactive([
-  {
-    title: "Order步骤",
-    key: "OrderSteps",
-    multiple: true,
-    options: [],
-  },
-]);
-
-// 默认 selectFilter 参数
-const selectFilterValues = ref({
-  OrderSteps: [""],
-});
-
-const isException = (status: string) => {
-  return status.endsWith("EXCEPTION");
-};
-
-const changeSelectFilter = (value: typeof selectFilterValues.value) => {
-  console.log(selectFilterValues.value.OrderSteps);
-  ElMessage.success("请注意查看请求参数变化 🤔");
-  selectFilterValues.value = value;
-};
-
-// 使用计算属性来过滤需要显示的列表
-const filteredLists = computed(() => {
-  if (
-    selectFilterValues.value.OrderSteps.length === 1 &&
-    selectFilterValues.value.OrderSteps[0] === ""
-  ) {
-    return lists.value;
-  }
-  const selectedStatuses = new Set<OrderSteps>(
-    selectFilterValues.value.OrderSteps as OrderSteps[]
-  );
-
-  const filtered = Object.fromEntries(
-    Object.entries(lists.value).filter(([key, _]) =>
-      selectedStatuses.has(key as OrderSteps)
-    )
-  );
-  return filtered;
-});
 
 onMounted(async () => {
-  try {
-    const response = await getAllTask({ userId: userStore.userInfo.userId });
-    const tasks = response.data.orderTaskMap;
+  await getOrderTasks();
+});
 
-    for (const status in tasks) {
-      if (Object.prototype.hasOwnProperty.call(tasks, status)) {
-        lists.value[status as OrderSteps] = reactive(tasks[status]);
-      }
+const getOrderTasks = async () => {
+  try {
+    // step1 init all params
+    for (const status of taskStatus.value) {
+      loading.value[status] = false;
+      indexs.value[status] = 0;
     }
+    for (const status of taskStatus.value) {
+      await loadTasksForStep(status);
+    }
+  } catch (error) {
+    console.error("Failed to load steps:", error);
+    ElMessage.error("Failed to load steps");
+  }
+};
+
+const isException = (index: string) => {
+  return index.endsWith("EXCEPTION");
+};
+
+const load = async (index: number) => {
+  if (loading.value[index]) return; // 如果当前正在加载，直接返回
+
+  loading.value[index] = true;
+
+  try {
+    indexs.value[index] = indexs.value[index] + 1; // 增加页码
+    const params = {
+      userId: userStore.userInfo.id, // 替换为真实的 userId
+      status: index,
+      index: indexs.value[index],
+    };
+    const response = await getTasks(params);
+    const tasks = response.data.list;
+    allTasks.value[index].tasks = [...allTasks.value[index].tasks, ...tasks];
+    // Append the mockOrderList to the tasks array of the specific status
   } catch (error) {
     console.error("Failed to load tasks:", error);
     ElMessage.error("Failed to load tasks");
+  } finally {
+    loading.value[index] = false; // 加载结束
   }
-});
-
-onMounted(() => getOrderSteps());
-const getOrderSteps = async () => {
-  const response = await getAllSteps({ userId: userStore.userInfo.userId });
-  const data = response.data;
-  data.unshift({ label: "All", value: "" });
-  selectFilterData[0].options = data as any;
 };
 
-const load = async (status: OrderSteps) => {
-  console.log(loading.value[status]);
-  loading.value[status] = true;
-  const reqParam: Order.ReqTaskParams = {
-    taskStatus: status,
-    index: count[status],
-  };
-  const response = await getTask(reqParam);
-
-  setTimeout(() => {
-    count[status] += 1;
-    lists.value[status].push(...response.data[status]);
-
+const loadTasksForStep = async (status: number) => {
+  try {
+    loading.value[status] = true;
+    const response = await getTasks({
+      userId: userStore.userInfo.id,
+      status: status,
+      index: indexs[status],
+    });
+    const tasks = response.data.list;
+    allTasks.value.push({ status, tasks: tasks });
+  } catch (error) {
+    console.error("Failed to load tasks for step:", error);
+    ElMessage.error("Failed to load tasks");
+  } finally {
     loading.value[status] = false;
-  }, 4000);
+  }
 };
 
 // Event handlers
@@ -195,8 +165,10 @@ function handleUpdate() {
   console.log("List updated");
 }
 
-function handleAdd(status: OrderSteps) {
-  console.log("Item added in list ", status);
+function handleAdd() {
+  console.log("load");
+  console.log(loading.value);
+  console.log("Item added in list ");
 }
 
 const dialogRef = ref<InstanceType<typeof Dialog> | null>(null);
@@ -213,40 +185,4 @@ const openDialog = async (row: Partial<Order.ResOrderList> = {}) => {
 
 <style scoped lang="scss">
 @import "./index.scss";
-
-.list-container.is-collapsed {
-  max-height: 0;
-}
-
-.el-icon-arrow-down,
-.el-icon-arrow-right {
-  cursor: pointer;
-  margin-right: 5px;
-}
-
-/* 使滚动条更明显 */
-:deep(.el-scrollbar__bar.is-horizontal) {
-  display: block !important;
-  margin-right: 10px; /* 右边距 */
-}
-
-:deep(.el-scrollbar__thumb) {
-  background-color: #0e7cfa;
-  margin-right: 10px; /* 右边距 */
-
-  padding: 2px;
-  border-radius: 3px;
-  border: 7px solid #099bf0;
-  display: block !important;
-}
-
-/* 调整滚动条滑块的样式 */
-:deep(.el-scrollbar__thumb.is-horizontal) {
-  background-color: #0e7cfa;
-  border: none; /* 移除边框 */
-  margin-right: 10px; /* 右边距 */
-  border-radius: 3px;
-  padding: 2px;
-  background-clip: padding-box; /* 确保背景不延伸到边框之外 */
-}
 </style>

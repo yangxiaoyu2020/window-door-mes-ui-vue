@@ -55,7 +55,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 import draggable from "vuedraggable";
-import ChartComponent from "../components/ChartComponent.vue";
+import ChartComponent from "@/components/Charts/ChartComponent.vue";
 import EditChartModal from "../components/EditChartModal.vue";
 import axios from "axios";
 

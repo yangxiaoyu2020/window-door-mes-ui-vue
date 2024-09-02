@@ -2,9 +2,11 @@
 export interface UserState {
     token: string;
     userInfo: { 
-      name: string,
-      userId: number,
-      avatar: string,
+      username: string;
+      fullName: string;
+      phoneNumber: string;
+      avatar: string;
+      id: number;
     };
 }
 

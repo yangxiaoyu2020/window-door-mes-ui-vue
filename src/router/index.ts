@@ -50,7 +50,7 @@ router.beforeEach(async (to, from, next) => {
   // 6.如果没有菜单列表，就重新请求菜单列表并添加动态路由
   if (!authStore.authMenuListGet.length) {
     const reqData: Login.ReqParams= {
-      userId: userStore.userInfo.userId
+      userId: userStore.userInfo.id
     }
 
     await initDynamicRouter(reqData);

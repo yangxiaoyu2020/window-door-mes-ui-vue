@@ -21,11 +21,30 @@
             {{ $t("order.create") }}
           </el-button>
         </template>
+        <template #status="scope">
+          <el-tag
+            :label="scope.row.status"
+            :key="scope.row.status"
+            :type="getStatus(scope.row.status) ? 'danger' : 'success'"
+            effect="dark"
+          >
+            {{ scope.row.status }}
+          </el-tag>
+        </template>
         <template #percentageScope="scope">
           <el-progress
-            :percentage="getStatusDetails(scope.row.status).percentage"
-            :status="getStatusDetails(scope.row.status).isException ? 'exception' : ''"
+            :percentage="getStepsDetails(scope.row.steps)"
+            :status="getStatus(scope.row.status) ? 'exception' : ''"
           />
+        </template>
+        <template #deliveryDate="scope">
+          <TimeZoneConverter :inputTime="scope.row.deliveryDate" />
+        </template>
+        <template #creationDate="scope">
+          <TimeZoneConverter :inputTime="scope.row.creationDate" />
+        </template>
+        <template #lastUpdate="scope">
+          <TimeZoneConverter :inputTime="scope.row.lastUpdate" />
         </template>
         <template #operation="scope">
           <el-button
@@ -59,17 +78,18 @@ import MyTable from "@/components/table/index.vue";
 import Drawer from "./components/Drawer.vue";
 import CreateOrder from "./createOrder/index.vue";
 import SelectFilter from "@/components/SelectFilter/index.vue";
+import TimeZoneConverter from "@/components/FormattedTime/index.vue";
 import { MyTableInstance, ColumnProps } from "@/components/table/interface";
 import { CirclePlus, EditPen, View } from "@element-plus/icons-vue";
 import {
   getOrderList,
   createOrder,
   downloadSample,
-  getOrderitem,
   updateOrder,
 } from "@/api/modules/orders";
 import { Order } from "@/api/interface/order";
 import { useI18n } from "vue-i18n";
+import { OrderSteps } from "@/enums/order/OrderSteps";
 import { OrderStatus } from "@/enums/order/OrderStatus";
 
 // MyTable 实例
@@ -82,16 +102,17 @@ const i18n = useI18n();
 const createColumns = () =>
   reactive<ColumnProps<Order.ResOrderList>[]>([
     { type: "radio", width: 80 },
-    { prop: "id", label: i18n.t("orderList.orderId"), width: 120 },
+    { prop: "id", label: i18n.t("orderList.orderId"), width: 80 },
     { prop: "orderName", label: i18n.t("orderList.orderName"), width: 120 },
     { prop: "productId", label: i18n.t("orderList.productId") },
-    { prop: "status", label: i18n.t("orderList.status") },
+    { prop: "status", label: i18n.t("orderList.status"), width: 170 },
+    { prop: "steps", label: i18n.t("orderList.steps"), width: 150 },
     { prop: "percentageScope", label: i18n.t("orderList.percentage"), width: 150 },
     { prop: "prepaymentAmount", label: i18n.t("orderList.prepaymentAmount") },
     { prop: "totalAmount", label: i18n.t("orderList.totalAmount") },
-    { prop: "deliveryDate", label: i18n.t("orderList.deliveryDate") },
-    { prop: "creationDate", label: i18n.t("orderList.creationDate") },
-    { prop: "lastUpdate", label: i18n.t("orderList.lastUpdate") },
+    { prop: "deliveryDate", label: i18n.t("orderList.deliveryDate"), width: 150 },
+    { prop: "creationDate", label: i18n.t("orderList.creationDate"), width: 150 },
+    { prop: "lastUpdate", label: i18n.t("orderList.lastUpdate"), width: 150 },
     { prop: "operation", label: i18n.t("userOperation"), width: 330, fixed: "right" },
   ]);
 
@@ -111,9 +132,10 @@ const selectFilterData = reactive([
     key: "orderStatus",
     options: [
       { label: "全部", value: "" },
-      { label: "进行中", value: "1", icon: "Loading" },
-      { label: "已完成", value: "2", icon: "CircleCheck" },
-      { label: "异常", value: "3", icon: "Warning" },
+      { label: "进行中", value: "0", icon: "Loading" },
+      { label: "已完成", value: "1", icon: "CircleCheck" },
+      { label: "异常", value: "8000", icon: "Warning" },
+      { label: "错误", value: "8001", icon: "CircleClose" },
     ],
   },
 ]);
@@ -162,93 +184,52 @@ const openDrawer = async (title: string, row: Partial<Order.ResOrderList> = {}) 
   drawerRef.value?.acceptParams(params);
 };
 
-const getStatusDetails = (status: OrderStatus) => {
-  let percentage = 0;
+const getStatus = (status: OrderStatus) => {
   let isException = false;
-  switch (status) {
-    case OrderStatus.Creating:
-      percentage = 5;
-      break;
-    case OrderStatus.Submitted:
-      percentage = 10;
-      break;
-    case OrderStatus.MeasurementVerification:
-      percentage = 20;
-      break;
-    case OrderStatus.Prepayment:
-      percentage = 30;
-      break;
-    case OrderStatus.TechnicalUnpacking:
-      percentage = 40;
-      break;
-    case OrderStatus.Cutting:
-      percentage = 50;
-      break;
-    case OrderStatus.Scheduling:
-      percentage = 60;
-      break;
-    case OrderStatus.PaymentOfBalance:
-      percentage = 70;
-      break;
-    case OrderStatus.Logistics:
-      percentage = 80;
-      break;
-    case OrderStatus.OrderCompletion:
-      percentage = 100;
-      break;
+  if (status.endsWith("EXCEPTION")) {
+    isException = true;
+  }
+  return isException;
+};
 
-    // Exception cases
-    case OrderStatus.SubmittedException:
-      percentage = 5;
-      isException = true;
-      break;
-    case OrderStatus.CreationException:
+const getStepsDetails = (steps: OrderSteps) => {
+  let percentage = 0;
+  switch (steps) {
+    case OrderSteps.Creating:
       percentage = 10;
-      isException = true;
       break;
-    case OrderStatus.MeasurementVerificationException:
+    case OrderSteps.Submitted:
       percentage = 20;
-      isException = true;
       break;
-    case OrderStatus.PrepaymentException:
+    case OrderSteps.MeasurementVerification:
       percentage = 30;
-      isException = true;
       break;
-    case OrderStatus.TechnicalUnpackingException:
+    case OrderSteps.Prepayment:
       percentage = 40;
-      isException = true;
       break;
-    case OrderStatus.CuttingException:
+    case OrderSteps.Manufacturing:
       percentage = 50;
-      isException = true;
       break;
-    case OrderStatus.SchedulingException:
-      percentage = 60;
-      isException = true;
-      break;
-    case OrderStatus.PaymentOfBalanceException:
+    case OrderSteps.PaymentOfBalance:
       percentage = 70;
-      isException = true;
       break;
-    case OrderStatus.LogisticsException:
+    case OrderSteps.Logistics:
       percentage = 80;
-      isException = true;
       break;
-    case OrderStatus.OrderCompletionException:
-      percentage = 90;
-      isException = true;
-      break;
-    case OrderStatus.OtherException:
-      percentage = 50;
-      isException = true;
+    case OrderSteps.OrderCompletion:
+      percentage = 100;
       break;
 
     default:
       percentage = 0;
-      isException = true;
       break;
   }
 
-  return { percentage, isException };
+  return percentage;
 };
 </script>
+<style scoped>
+.table-box {
+  width: calc(100% - 10px);
+}
+</style>

@@ -39,7 +39,19 @@
           />
           <span v-else>
             <template v-for="item in notices" :key="item.key">
-              <el-tab-pane :label="$t(getLabel(item))" :name="`${item.key}`">
+              <el-tab-pane>
+                <template #label>
+                  <!-- 添加el-badge组件到标签旁边 -->
+                  <el-badge
+                    :value="item.list.length"
+                    :max="100"
+                    :show-zero="false"
+                    class="item"
+                  >
+                    <el-tag type="primary">{{ getLabel(item) }}</el-tag>
+                    <!-- 您可以在此处添加自定义内容，例如一个小图标或其他文本 -->
+                  </el-badge>
+                </template>
                 <el-scrollbar max-height="330px">
                   <div class="noticeList-container">
                     <NoticeList :list="item.list" :emptyText="item.emptyText" />
@@ -69,8 +81,7 @@ onMounted(() => {
   noticesNum.value = notices.value.reduce((sum, v) => sum + v.list.length, 0);
 });
 
-const getLabel = (item) =>
-  t(item.name) + (item.list.length > 0 ? `(${item.list.length})` : "");
+const getLabel = (item) => t(item.name);
 </script>
 
 <style lang="scss" scoped>
